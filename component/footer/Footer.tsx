@@ -12,14 +12,16 @@ class Footer extends Component{
         const styles = makeStyles();
         const {screensArr,navigation}= this.props
         console.log("scre",navigation);
-        
+        const screensToShow = Object.keys(screensArr)
         return (
             <View style={styles.container}>
-                {screensArr.map((item)=>{
+                {screensToShow.map((item)=>{
+                    console.log(item)
+                    
                     return(
                         <TouchableOpacity 
                             key={item}
-                            onPress={()=>{navigation.navigate(item)}} 
+                            onPress={()=>{navigation.current.navigate(item)}} 
                             style={styles.buttonBox}
                             >
                                 <Text>{item}</Text>

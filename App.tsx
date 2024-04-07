@@ -14,17 +14,34 @@ import Footer from './component/footer/Footer';
 import Sales from './component/Sales';
 import { navigationRef } from './component/navigationRef';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Purchase from './component/Purchase';
+import Accounts from './component/Accounts';
+import Modall from './component/Modal';
+import { Modalize } from 'react-native-modalize';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 class App extends Component {
-
+  modalRef = React.createRef();
+  navRef = React.createRef();
   constructor(prop){
     super(prop)
     this.state = {
       screens : {
         'Home':Home,
         'Sales':Sales,
-        'Purcase':'',
-        'Accounts':''
-      }
+        'Purchase':Purchase,
+        'Accounts':Accounts,
+      },
+      allScreens : {
+        'Home':Home,
+        'Sales':Sales,
+        'Purchase':Purchase,
+        'Accounts':Accounts,
+        'Credit Note':Home,
+        'Debit Note':Home,
+        'Receipt':Home,
+        'Payment':Home
+      },
+      openModal:false
     }
   }
   onClick(name:string){
@@ -36,15 +53,24 @@ class App extends Component {
   render() {
     const Tab = createBottomTabNavigator();
     console.log("-=-=-=",this.props);
-    const screenss = Object.keys(this.state.screens)
+    const screensToShow = Object.keys(this.state.screens)
     return (
-      <NavigationContainer>
+      <NavigationContainer ref={this.navRef}>
         <Tab.Navigator>
-          {screenss.map((item)=>{
-            return <Tab.Screen name={item} component={this.state.screens[item]}/>
-          })}
-          <Tab.Screen name="Modal" component={Home}/>
+          {screensToShow.map((item)=>
+            <Tab.Screen key={item} name={item} component={this.state.screens[item]}/>
+          )
+          }
+          <Tab.Screen name='new' component={Modall}
+            listeners={()=>({
+              tabPress: event => {
+                event.preventDefault();
+                this.modalRef.current.open();
+              }
+            })}
+          />
         </Tab.Navigator>
+        <Modall modalRef={this.modalRef} allScreens={this.state.allScreens} navigationRef={this.navRef}/>
       </NavigationContainer>
     );
   }
