@@ -8,17 +8,19 @@
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, {Component} from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
-import Home from './component/Home';
+import Home from './component/tabNavigation/Home';
 import Footer from './component/footer/Footer';
-import Sales from './component/Sales';
-import { navigationRef } from './component/navigationRef';
+import Sales from './component/tabNavigation/Sales';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Purchase from './component/Purchase';
-import Accounts from './component/Accounts';
-import Modall from './component/Modal';
+import Purchase from './component/tabNavigation/Purchase';
+import Accounts from './component/tabNavigation/Accounts';
+import Modall from './component/tabNavigation/Modal';
 import { Modalize } from 'react-native-modalize';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import Payment from './component/tabNavigation/Payment';
+import CreditNote from './component/tabNavigation/CreditNote';
+import DebitNote from './component/tabNavigation/DebitNote';
+import Receipt from './component/tabNavigation/Receipt';
 class App extends Component {
   modalRef = React.createRef();
   navRef = React.createRef();
@@ -36,10 +38,10 @@ class App extends Component {
         'Sales':Sales,
         'Purchase':Purchase,
         'Accounts':Accounts,
-        'Credit Note':Home,
-        'Debit Note':Home,
-        'Receipt':Home,
-        'Payment':Home
+        'Credit Note':CreditNote,
+        'Debit Note':DebitNote,
+        'Receipt':Receipt,
+        'Payment':Payment
       },
       openModal:false
     }
@@ -48,6 +50,9 @@ class App extends Component {
     console.log("param",name);
     
   }
+  updateScreens = (newScreens) => {
+    this.setState({ screens: newScreens });
+  }
   
 
   render() {
@@ -55,6 +60,7 @@ class App extends Component {
     console.log("-=-=-=",this.props);
     const screensToShow = Object.keys(this.state.screens)
     return (
+      <GestureHandlerRootView >
       <NavigationContainer ref={this.navRef}>
         <Tab.Navigator>
           {screensToShow.map((item)=>
@@ -70,8 +76,9 @@ class App extends Component {
             })}
           />
         </Tab.Navigator>
-        <Modall modalRef={this.modalRef} allScreens={this.state.allScreens} navigationRef={this.navRef}/>
+        <Modall modalRef={this.modalRef} allScreens={this.state.allScreens} navigationRef={this.navRef} screenSetter={this.updateScreens} tabScreens={this.state.screens}/>
       </NavigationContainer>
+      </GestureHandlerRootView>
     );
   }
 }

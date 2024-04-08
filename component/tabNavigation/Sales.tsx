@@ -8,10 +8,7 @@ class Sales extends Component{
         const {navigation} = this.props
         // const navigation = useNavigation();
         return(
-            <TouchableOpacity
-            onPress={()=>{
-                navigation.replace('Home');
-            }}>
+            <TouchableOpacity>
             <View>
                 <Text>saless</Text>
             </View>
