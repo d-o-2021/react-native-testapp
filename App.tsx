@@ -1,86 +1,137 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import { CustomBiometrics } from 'biometric-module';
+import React from 'react';
+ import {
+ 
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+   View,
+} from 'react-native';
+import OTPVerification from './component/OTPVerification';
 
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React, {Component} from 'react';
-import Home from './component/tabNavigation/Home';
-import Footer from './component/footer/Footer';
-import Sales from './component/tabNavigation/Sales';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Purchase from './component/tabNavigation/Purchase';
-import Accounts from './component/tabNavigation/Accounts';
-import Modall from './component/tabNavigation/Modal';
-import { Modalize } from 'react-native-modalize';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import Payment from './component/tabNavigation/Payment';
-import CreditNote from './component/tabNavigation/CreditNote';
-import DebitNote from './component/tabNavigation/DebitNote';
-import Receipt from './component/tabNavigation/Receipt';
-class App extends Component {
-  modalRef = React.createRef();
-  navRef = React.createRef();
-  constructor(prop){
-    super(prop)
-    this.state = {
-      screens : {
-        'Home':Home,
-        'Sales':Sales,
-        'Purchase':Purchase,
-        'Accounts':Accounts,
-      },
-      allScreens : {
-        'Home':Home,
-        'Sales':Sales,
-        'Purchase':Purchase,
-        'Accounts':Accounts,
-        'Credit Note':CreditNote,
-        'Debit Note':DebitNote,
-        'Receipt':Receipt,
-        'Payment':Payment
-      },
-      openModal:false
-    }
-  }
-  onClick(name:string){
-    console.log("param",name);
-    
-  }
-  updateScreens = (newScreens) => {
-    this.setState({ screens: newScreens });
-  }
-  
+ 
+// import ReactNativeBiometrics from 'react-native-biometrics'
 
-  render() {
-    const Tab = createBottomTabNavigator();
-    console.log("-=-=-=",this.props);
-    const screensToShow = Object.keys(this.state.screens)
-    return (
-      <GestureHandlerRootView >
-      <NavigationContainer ref={this.navRef}>
-        <Tab.Navigator>
-          {screensToShow.map((item)=>
-            <Tab.Screen key={item} name={item} component={this.state.screens[item]}/>
-          )
-          }
-          <Tab.Screen name='new' component={Modall}
-            listeners={()=>({
-              tabPress: event => {
-                event.preventDefault();
-                this.modalRef.current.open();
-              }
-            })}
-          />
-        </Tab.Navigator>
-        <Modall modalRef={this.modalRef} allScreens={this.state.allScreens} navigationRef={this.navRef} screenSetter={this.updateScreens} tabScreens={this.state.screens}/>
-      </NavigationContainer>
-      </GestureHandlerRootView>
-    );
-  }
+// const rnBiometrics = new ReactNativeBiometrics()
+ 
+
+function App(): React.JSX.Element {
+ 
+
+  return (
+    // <View style={styles.container}>
+    //   <View style={styles.content}>
+    //     <Text style={styles.title}>Sensor Available</Text>
+    //     <TouchableOpacity
+    //       activeOpacity={0.7}
+    //       style={[styles.button, { margin: 10 }]}
+    //       onPress={async() => {
+    //         CustomBiometrics.isSensorAvailable()
+    //           .then(response => console.log('this is iiiiiii', response))
+    //           .catch(error => console.error(error))
+            
+    //       }}
+    //     >
+    //       <Text style={styles.buttonText}>Check</Text>
+    //     </TouchableOpacity>
+    //     <Text style={styles.title}>Prompt</Text>
+    //     <TouchableOpacity
+    //       activeOpacity={0.7}
+    //       style={[styles.button, { margin: 10 }]}
+    //       onPress={() => {
+    //         CustomBiometrics.simplePrompt({
+    //           promptMessage: 'Verify your fingerprints',
+    //           allowDeviceCredentials: true,
+    //           fallbackPromptMessage: 'Use device passcode',
+    //           cancelButtonText: 'Cancel'
+    //         }).then(response => console.log(response)).catch(error => console.log(error));
+
+    //       }}
+    //     >
+    //       <Text style={styles.buttonText}>Check</Text>
+    //     </TouchableOpacity>
+    //     <Text style={styles.title}>Direct Auth</Text>
+    //     <TouchableOpacity
+    //       activeOpacity={0.7}
+    //       style={[styles.button, { margin: 10 }]}
+    //       onPress={() => {
+    //         CustomBiometrics.authenticate()
+    //           .then(response => {
+    //             console.log('Authentication Res:', response)
+    //             if (response?.success == false) {
+    //               // CustomBiometrics.cancelAuthentication();
+    //             }
+    //           })
+    //           .catch(error => {
+    //             console.error('Authentication Failed:', error)
+    //           })
+    //       }}
+    //     >
+    //       <Text style={styles.buttonText}>Check</Text>
+    //     </TouchableOpacity>
+    //     <Text style={styles.title}>Biometric Type</Text>
+    //     <TouchableOpacity
+    //       activeOpacity={0.7}
+    //       style={[styles.button, { margin: 10 }]}
+    //       onPress={() => {
+    //         CustomBiometrics.getBiometricType()
+    //           .then(type => {
+    //             console.log('Biometric Type:', type)
+    //           })
+    //           .catch(error => {
+    //             console.error('Error:', error)
+    //           })
+    //       }}
+    //     >
+    //       <Text style={styles.buttonText}>Check</Text>
+    //     </TouchableOpacity>
+       
+    //   </View>
+    // </View>
+    <View style={{flex:1}}>
+      <OTPVerification />
+
+    </View>
+  );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: '#000000',
+  },
+  content: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  heading: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#ffffff',
+    alignSelf: 'center',
+    marginBottom: 50
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: '#ffffff',
+    marginVertical: 20
+  },
+  button: {
+    backgroundColor: '#ffffff',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    elevation: 3,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#000000',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+});
 
 export default App;
